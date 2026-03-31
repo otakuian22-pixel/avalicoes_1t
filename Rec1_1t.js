@@ -1,9 +1,5 @@
-// Importa prompt-sync
 const prompt = require("prompt-sync")();
 
-// =======================
-// Variáveis e Constantes
-// =======================
 let rodando = true;
 
 const menuOpcoes = [
@@ -15,9 +11,7 @@ const menuOpcoes = [
   "0 - Sair"
 ];
 
-// =======================
-// Objeto principal
-// =======================
+
 let usuario = {
   nome: "",
   idade: 0,
@@ -25,9 +19,6 @@ let usuario = {
   habilidades: []
 };
 
-// =======================
-// Arrow Functions
-// =======================
 const mostrarMenu = () => {
   console.log("\n===== MENU =====");
   menuOpcoes.forEach(op => console.log(op));
@@ -44,9 +35,6 @@ const adicionarHabilidade = (habilidade) => {
   usuario.habilidades.push(habilidade);
 };
 
-// =======================
-// Loop principal
-// =======================
 while (rodando) {
   mostrarMenu();
   let escolha = prompt("Escolha uma opção: ");
