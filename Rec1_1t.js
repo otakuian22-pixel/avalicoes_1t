@@ -1,50 +1,99 @@
+// Importa prompt-sync
 const prompt = require("prompt-sync")();
 
-let nome = prompt("Digite seu nome: ");
-const idade = Number(prompt("Digite sua idade: "));
+// =======================
+// Variáveis e Constantes
+// =======================
+let rodando = true;
 
-const opcoes = ["Saudação", "Dobro da idade", "Mostrar usuário", "Sair"];
+const menuOpcoes = [
+  "1 - Criar usuário",
+  "2 - Mostrar usuário",
+  "3 - Adicionar habilidade",
+  "4 - Listar habilidades",
+  "5 - Calcular nível (baseado em XP)",
+  "0 - Sair"
+];
 
-const usuario = {
-    nome: nome,
-    idade: idade
+// =======================
+// Objeto principal
+// =======================
+let usuario = {
+  nome: "",
+  idade: 0,
+  xp: 0,
+  habilidades: []
 };
 
-const dobro = (num) => num * 2;
-
+// =======================
+// Arrow Functions
+// =======================
 const mostrarMenu = () => {
-    console.log("\n=== MENU ===");
-    opcoes.forEach((op, index) => {
-        console.log(`${index + 1} - ${op}`);
-    });
+  console.log("\n===== MENU =====");
+  menuOpcoes.forEach(op => console.log(op));
 };
 
-let escolha;
+const calcularNivel = (xp) => {
+  if (xp < 100) return "Iniciante";
+  if (xp < 300) return "Intermediário";
+  if (xp < 600) return "Avançado";
+  return "Mestre";
+};
 
-do {
-    mostrarMenu();
-    escolha = Number(prompt("Escolha uma opção: "));
+const adicionarHabilidade = (habilidade) => {
+  usuario.habilidades.push(habilidade);
+};
 
-    switch (escolha) {
-        case 1:
-            console.log(`Olá, ${usuario.nome}!`);
-            break;
+// =======================
+// Loop principal
+// =======================
+while (rodando) {
+  mostrarMenu();
+  let escolha = prompt("Escolha uma opção: ");
 
-        case 2:
-            console.log(`O dobro da sua idade é: ${dobro(usuario.idade)}`);
-            break;
+  switch (escolha) {
+    case "1":
+      usuario.nome = prompt("Digite o nome: ");
+      usuario.idade = Number(prompt("Digite a idade: "));
+      usuario.xp = Number(prompt("Digite o XP inicial: "));
+      console.log("Usuário criado com sucesso!");
+      break;
 
-        case 3:
-            console.log("Dados do usuário:");
-            console.log(usuario);
-            break;
+    case "2":
+      console.log("\n=== DADOS DO USUÁRIO ===");
+      console.log(`Nome: ${usuario.nome}`);
+      console.log(`Idade: ${usuario.idade}`);
+      console.log(`XP: ${usuario.xp}`);
+      break;
 
-        case 4:
-            console.log("Saindo...");
-            break;
+    case "3":
+      let novaHab = prompt("Digite a habilidade: ");
+      adicionarHabilidade(novaHab);
+      console.log("Habilidade adicionada!");
+      break;
 
-        default:
-            console.log("Opção inválida!");
-    }
+    case "4":
+      console.log("\n=== HABILIDADES ===");
+      if (usuario.habilidades.length === 0) {
+        console.log("Nenhuma habilidade cadastrada.");
+      } else {
+        usuario.habilidades.forEach((hab, index) => {
+          console.log(`${index + 1} - ${hab}`);
+        });
+      }
+      break;
 
-} while (escolha !== 4);
+    case "5":
+      const nivel = calcularNivel(usuario.xp);
+      console.log(`Nível do usuário: ${nivel}`);
+      break;
+
+    case "0":
+      console.log("Encerrando programa...");
+      rodando = false;
+      break;
+
+    default:
+      console.log("Opção inválida!");
+  }
+}
